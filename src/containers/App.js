@@ -1,0 +1,58 @@
+import React, {Component} from 'react';
+import {connect} from 'react-redux';
+import CardList from '../components/CardList';
+//import {robots} from './robots.js';
+import SearchBox from '../components/SearchBox';
+import './App.css';
+import Scroll from '../components/Scroll';
+import ErrorBoundry from '../components/ErrorBoundry';
+
+import {setSearchField, requestRobots} from '../actions';
+
+const mapStateToProps =  state =>{
+	return {
+		searchField: state.searchRobots.searchField,
+		robots: state.requestRobots.robots,
+		isPending: state.requestRobots.isPending
+	}
+}
+
+const mapDispatchToProps = (dispatch) =>{
+	return{
+	onSearchChange: (event) => dispatch(setSearchField(event.target.value)),
+	onRequestRobots: ()=> dispatch(requestRobots())
+  }
+}
+
+
+class App extends Component {
+
+	componentDidMount(){
+	this.props.onRequestRobots();
+	}
+
+    
+
+	 render() {
+    const { robots, searchField, onSearchChange, isPending } = this.props;
+    const filteredRobots = robots.filter(robot => {
+      return robot.name.toLowerCase().includes(searchField.toLowerCase());
+    })
+    return (
+      <div className='tc'>
+        <h1 className='f1'>CatFriends</h1>
+        <SearchBox searchChange={onSearchChange}/>
+        <Scroll>
+          { isPending ? <h1>Loading</h1> :
+            <ErrorBoundry>
+              <CardList robots={filteredRobots} />
+            </ErrorBoundry>
+          }
+        </Scroll>
+      </div>
+    );
+  }
+}
+
+// action done from mapDispatchToProps will channge state from mapStateToProps
+export default connect(mapStateToProps, mapDispatchToProps)(App)

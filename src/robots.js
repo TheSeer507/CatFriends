@@ -58,13 +58,13 @@ export const robots = [
     name: 'Clementina DuBuque',
     username: 'Moriah.Stanton',
     email: 'Rey.Padberg@karina.biz'
-  }
+  },
    {
     id: 11,
     name: 'Hasan Patel',
     username: 'Zorro',
     email: 'servipcpanama@gmail.com'
-  }
+  },
    {
     id: 12,
     name: 'Raquel Gonzalez',
